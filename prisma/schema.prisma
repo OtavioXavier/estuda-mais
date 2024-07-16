@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model Student {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  nickname  String
+  email     String   @unique
+  password  String
+  matters   Matter[]
+  targets   Target[]
+  events    Event[]
+}
+
+model Matter {
+  id        String    @id @default(uuid())
+  name      String    @unique
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  studyDays Int[]     @map("study_days")
+  topics  Topic[]
+  Student   Student?  @relation(fields: [studentId], references: [id])
+  studentId String?
+}
+
+model Topic {
+  id        String   @id @default(uuid())
+  title     String   
+  status    Boolean
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  Matter    Matter?  @relation(fields: [matterId], references: [id])
+  matterId  String?
+}
+
+model Target {
+  id          String   @id @default(uuid())
+  title       String
+  status      Boolean
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  conclutedAt DateTime @updatedAt @map("concluted_at")
+  deadline    DateTime @updatedAt
+  subjects    Int?
+  Student     Student? @relation(fields: [studentId], references: [id])
+  studentId   String?
+}
+
+model Event {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  status      Boolean
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  dateSet     DateTime @updatedAt @map("date_set")
+  conclutedAt DateTime @updatedAt @map("concluted_at")
+  Student     Student? @relation(fields: [studentId], references: [id])
+  studentId   String?
+}
