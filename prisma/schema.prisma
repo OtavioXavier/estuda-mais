@@ -21,19 +21,20 @@ model Student {
 }
 
 model Matter {
-  id        String    @id @default(uuid())
-  name      String    @unique
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt @map("updated_at")
-  studyDays Int[]     @map("study_days")
-  topics  Topic[]
-  Student   Student?  @relation(fields: [studentId], references: [id])
+  id        String   @id @default(uuid())
+  name      String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  studyDays Int[]    @map("study_days")
+  status    Boolean
+  topics    Topic[]
+  Student   Student? @relation(fields: [studentId], references: [id])
   studentId String?
 }
 
 model Topic {
   id        String   @id @default(uuid())
-  title     String   
+  title     String
   status    Boolean
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -42,16 +43,17 @@ model Topic {
 }
 
 model Target {
-  id          String   @id @default(uuid())
-  title       String
-  status      Boolean
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
-  conclutedAt DateTime @updatedAt @map("concluted_at")
-  deadline    DateTime @updatedAt
-  subjects    Int?
-  Student     Student? @relation(fields: [studentId], references: [id])
-  studentId   String?
+  id            String   @id @default(uuid())
+  title         String
+  status        Boolean
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+  finishedAt    DateTime @updatedAt @map("finished_at")
+  deadline      DateTime @updatedAt
+  subjects      Int?
+  subjectTarget Int?     @map("subject_target")
+  Student       Student? @relation(fields: [studentId], references: [id])
+  studentId     String?
 }
 
 model Event {
@@ -62,7 +64,7 @@ model Event {
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
   dateSet     DateTime @updatedAt @map("date_set")
-  conclutedAt DateTime @updatedAt @map("concluted_at")
+  finishedAt  DateTime @updatedAt @map("finished_at")
   Student     Student? @relation(fields: [studentId], references: [id])
   studentId   String?
 }
