@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils";
 import Logo from '@/components/logo';
 import Footer from '@/components/layout/footer';
 import Link from 'next/link';
+import { Toaster } from "@/components/ui/toaster"
+import Header from '@/components/layout/header';
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -25,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className='mx-4 mt-4'>
+    <html lang="en" className='mx-4 mt-4 md:mx-0 md:mt-0'>
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased overflow-x-hidden",
@@ -37,9 +39,11 @@ export default function RootLayout({
         <Logo />
         </Link>
       </header>
-      <section className='min-h-[70vh]'>
+      <Header />
+      <section className='mb-40'>
         {children}
       </section>
+      <Toaster />
       <Footer />
       </body>
     </html>
