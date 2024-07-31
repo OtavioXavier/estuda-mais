@@ -1,6 +1,6 @@
 import { Matter, Topic } from '@prisma/client';
 
-const clockTypes = [
+export const clockTypes = [
   "pomodoro",
   "default"
 ] as const;

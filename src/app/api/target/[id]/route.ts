@@ -29,7 +29,7 @@ export async function PUT(
     } else {
       return Response.json({ message: "target data invalid", status: 400 });
     }
-  } catch (error: any) {
+  } catch (error) {
     console.log(error);
   }
 }
@@ -44,7 +44,7 @@ export async function DELETE(  request: Request,{ params }: { params: { id: stri
     } else {
       return Response.json({ message: "target id invalid", status: 400 });
     }
-  } catch (error: any) {
+  } catch (error) {
     console.log(error);
     return Response.json({ message: "server error", status: 500 });
   }

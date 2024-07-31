@@ -26,7 +26,7 @@ console.log(topic)
       console.log("new Topic: ", createdTopic);
       return Response.json({ message: "topic created", status: 201, data: createdTopic });
     }
-  } catch (error: any) {
+  } catch (error) {
     console.log(error);
     return Response.json({ message: "Internal Server Error" }, { status: 500 });
   }

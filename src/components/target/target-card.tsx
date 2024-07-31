@@ -34,7 +34,7 @@ export default function CardTarget({target, update}: CardProps) {
   async function handleDelete() {
     axios
       .delete(`http://localhost:3000/api/target/${target.id}`)
-      .then((response) => {
+      .then(() => {
         toast({
           title: "Target: target is delete",
           description: "😞 It's okay, it wasn't meant to be",

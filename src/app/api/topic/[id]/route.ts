@@ -26,7 +26,7 @@ export async function PUT(
     } else {
       return Response.json({ message: "topic data invalid", status: 400 });
     }
-  } catch (error: any) {
+  } catch (error) {
     console.log(error);
   }
 }
@@ -50,7 +50,7 @@ export async function DELETE(req: Request,
     } else {
       return Response.json({ message: "topic data invalid", status: 400 });
     }
-  } catch (error: any) {
+  } catch (error) {
     console.log(error);
   }
 }

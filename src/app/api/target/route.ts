@@ -10,7 +10,7 @@ export async function GET() {
         data: targets, 
         status: 200 });
     }
-  } catch (error: any) {
+  } catch (error) {
     console.log(error);
     return Response.json({ message: "Internal sever error", status: 500 });
   }
@@ -51,7 +51,7 @@ export async function POST(req: Request) {
       console.log("new Target: ", body);
       return Response.json({ message: "target created", status: 201 });
     }
-  } catch (error: any) {
+  } catch (error) {
     console.log(error);
     return Response.json({ message: "Internal Server Error" }, { status: 500 });
   }

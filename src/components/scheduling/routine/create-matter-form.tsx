@@ -42,12 +42,7 @@ export default function CreateMatterForm({
   day,
   update,
 }: PropsForm) {
-  const mattersNames = mattersList.map((matter) => {
-    return matter.name;
-  });
-  const dayMattersNames = mattersList
-    .filter((matter) => matter.studyDays.includes(day))
-    .map((matter) => matter.name);
+
 
   const formSchema = z.object({
     selectedMatter: z.string(),

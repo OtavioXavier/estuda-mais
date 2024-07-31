@@ -1,4 +1,6 @@
 module.exports = {
+    
+
   env: {
     browser: true,
     es2021: true,
@@ -7,6 +9,7 @@ module.exports = {
   extends: [
     'standard',
     'plugin:@typescript-eslint/recommended',
+    "next/core-web-vitals",
     'plugin:prettier/recommended',
   ],
   parser: '@typescript-eslint/parser',

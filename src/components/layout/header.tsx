@@ -1,11 +1,9 @@
 "use client";
 
-import { BookOpenText, Calendar, Crosshair, Origami } from "lucide-react";
+import { BookOpenText, Calendar, Crosshair } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Logo from "../logo";
-import { Switch } from "../ui/switch";
-import { Label } from "../ui/label";
 import ZenButton from "./zen-button";
 
 const linkList = [

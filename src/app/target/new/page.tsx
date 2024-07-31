@@ -71,7 +71,7 @@ export default function newTarget() {
   const handleSubmit = (data: z.infer<typeof formSchema>) => {
     axios
       .post("http://localhost:3000/api/target", { data })
-      .then((res) => {
+      .then(() => {
         toast({
           title: "Target: target is created",
           description: "🎉 congratulations, you established a target",
