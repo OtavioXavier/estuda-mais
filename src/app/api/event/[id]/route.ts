@@ -1,14 +1,12 @@
-import prismadb from '@/lib/prismadb';
+import prismadb from "@/lib/prismadb";
 
 type Params = {
-  id: string
-}
+  id: string;
+};
 
-export async function PUT(
-  request: Request, context: { params: Params }
-) {
+export async function PUT(request: Request, context: { params: Params }) {
   try {
-    const  id  = context.params.id;
+    const id = context.params.id;
     const { event } = await request.json();
 
     if (event) {
@@ -26,7 +24,11 @@ export async function PUT(
         },
       });
 
-      return Response.json({ message: "Event updated", status: 200, data: updatedEvent });
+      return Response.json({
+        message: "Event updated",
+        status: 200,
+        data: updatedEvent,
+      });
     } else {
       return Response.json({ message: "Event data invalid", status: 400 });
     }
