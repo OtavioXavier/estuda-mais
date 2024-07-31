@@ -1,11 +1,14 @@
 import prismadb from '@/lib/prismadb';
 
+type Params = {
+  id: string
+}
+
 export async function PUT(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: Request, context: { params: Params }
 ) {
   try {
-    const { id } = params;
+    const  id  = context.params.id;
     const { event } = await request.json();
 
     if (event) {
@@ -22,9 +25,8 @@ export async function PUT(
           updatedAt: event.updatedAt,
         },
       });
-      console.log("Event sended: ", event);
-      console.log("Event updated: ", updatedEvent);
-      return Response.json({ message: "Event updated", status: 200 });
+
+      return Response.json({ message: "Event updated", status: 200, data: updatedEvent });
     } else {
       return Response.json({ message: "Event data invalid", status: 400 });
     }
