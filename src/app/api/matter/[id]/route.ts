@@ -32,7 +32,7 @@ export async function PUT(
   }
 }
 
-export async function DELETE( { params }: { params: { id: string } }) {
+export async function DELETE(request: Request, { params }: { params: { id: string } }) {
   try {
     const { id } = params; 
     const deletedMatter = await prismadb.matter.delete({where: {id}});
