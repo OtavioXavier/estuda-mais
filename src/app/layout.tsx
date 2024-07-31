@@ -1,19 +1,18 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-import { Inter as FontSans } from "next/font/google";
+import { Inter } from 'next/font/google';
 
-import { cn } from "@/lib/utils";
 import Logo from '@/components/logo';
 import Footer from '@/components/layout/footer';
 import Link from 'next/link';
 import { Toaster } from "@/components/ui/toaster"
 import Header from '@/components/layout/header';
 
-const fontSans = FontSans({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: "Estuda+",
@@ -29,10 +28,9 @@ export default function RootLayout({
   return (
     <html lang="en" className='mx-4 mt-4 md:mx-0 md:mt-0'>
       <body
-        className={cn(
-          "min-h-screen bg-background font-sans antialiased overflow-x-hidden",
-          fontSans.variable,
-        )}
+        className={
+          `${inter.className} min-h-screen bg-background font-sans antialiased overflow-x-hidden`
+        }
       >
       <header className='md:hidden'>
         <Link href="/">
