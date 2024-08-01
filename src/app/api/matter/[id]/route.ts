@@ -1,49 +1,90 @@
-import prismadb from '@/lib/prismadb';
+import { UpdateMatterDto } from "@/dto/update-matter.dto";
+import prismadb from "@/lib/prismadb";
+import { HttpStatusCode } from "axios";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function PUT(
-  request: Request,
+export async function GET(
+  _: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    const { id } = params;
-    const { matter } = await request.json();
-
+    const matter = await prismadb.matter.findUnique({
+      where: { id: params.id },
+    });
     if (matter) {
-      const updatedMatter = await prismadb.matter.update({
-        where: { id },
-        data: {
-          name: matter.name,
-          studyDays: matter.studyDays,
-          topics: matter.topics,
-          status: matter.status,
-          studentId: matter.studentId,
-          createdAt: matter.createdAt,
-          updatedAt: matter.updatedAt,
-        },
-      });
-      console.log("Matter sended: ", matter);
-      console.log("Matter updated: ", updatedMatter);
-      return Response.json({ message: "Matter updated", status: 200 });
-    } else {
-      return Response.json({ message: "Matter data invalid", status: 400 });
+      return NextResponse.json({ matter });
     }
+    return NextResponse.json(
+      { message: `matter ${params.id} not found` },
+      { status: HttpStatusCode.NotFound }
+    );
   } catch (error) {
-    console.log(error);
+    return NextResponse.json(
+      { message: error },
+      { status: HttpStatusCode.BadRequest }
+    );
   }
 }
 
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
-    const { id } = params; 
-    const deletedMatter = await prismadb.matter.delete({where: {id}});
+    const matter = await prismadb.matter.findUnique({
+      where: { id: params.id },
+    });
 
-    if(!deletedMatter) {
-      return Response.json({message: "this matter does not exists", status: 400});
+    if (matter) {
+      const body: UpdateMatterDto = await req.json();
+      const updatedMatter = await prismadb.matter.update({
+        where: { id: params.id },
+        data: {
+          updatedAt: body.updated_at,
+          name: body.name || matter.name,
+          status: body.status || matter.status,
+          studyDays: body.studyDays || matter.studyDays,
+        },
+      });
+      return NextResponse.json({ matter });
     }
-    
-    return Response.json({message: "deleted with success", status: 204})
+    return NextResponse.json(
+      { message: `Matter ${params.id} not found` },
+      { status: HttpStatusCode.NotFound }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { message: error },
+      { status: HttpStatusCode.BadRequest }
+    );
+  }
+}
+
+export async function DELETE(
+  _: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const matter = await prismadb.matter.findUnique({
+      where: { id: params.id },
+    });
+
+    if (matter) {
+      const deletedMatter = await prismadb.matter.delete({
+        where: { id: matter.id },
+      });
+
+      return NextResponse.json({
+        message: `Matter ${params.id} has been deleted`,
+      });
+    }
+
+    return Response.json({
+      message: `Matter ${params.id} not found`,
+      status: HttpStatusCode.NotFound,
+    });
   } catch (error) {
     console.error(error);
-    return Response.json({message: error, status: 500})
+    return Response.json({ message: error, status: HttpStatusCode.BadRequest });
   }
 }
