@@ -33,7 +33,7 @@ export default function SelectClock({
   return (
     <div className="flex flex-col items-start gap-4 mt-8">
       <Label>Clock Type</Label>
-      <Select onValueChange={setClock}>
+      <Select onValueChange={setClock} defaultValue='default'>
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Select a clock type" />
         </SelectTrigger>
