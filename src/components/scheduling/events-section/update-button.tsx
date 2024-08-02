@@ -26,7 +26,7 @@ export default function UpdateButton({
     const newEvent = {
       ...event,
       status: false,
-      ...(variant === "delete" ? { finishedAt: new Date() } : {}),
+      ...(variant === "finish" ? { finishedAt: new Date() } : {}),
     };
 
     axios

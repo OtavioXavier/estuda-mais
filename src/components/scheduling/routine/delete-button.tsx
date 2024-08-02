@@ -1,15 +1,16 @@
 "use client";
 
-import { CircleX, LoaderCircle } from "lucide-react";
-import axios from "axios";
+import { CircleX, LoaderCircle, Trash2 } from "lucide-react";
+import axios, { HttpStatusCode } from "axios";
 
 import { useToast } from "../../ui/use-toast";
 import { useState } from "react";
-import { Matter } from '@prisma/client';
+import { Matter } from "@prisma/client";
+import { UpdateMatterDto } from "@/dto/update-matter.dto";
 
 interface ButtonProps {
   matter: Matter;
-  dayWeek: number,
+  dayWeek: number;
   reload: () => void;
 }
 
@@ -19,42 +20,80 @@ export default function DeleteButton({ matter, reload, dayWeek }: ButtonProps) {
 
   const handleDelete = () => {
     setIsLoading(true);
-    const newMatter = {...matter, studyDays: matter.studyDays.filter(day => day !== dayWeek) }
-    axios
-      .put(`/api/matter/${matter.id}`, {matter: newMatter})
-      .then((response) => {
-        if (response.data.status === 200) {
-          toast({
-            title: "matter was deleted",
-            description: "matter was deleted with success",
-          });
-        } else {
+
+    const newMatter: UpdateMatterDto = {
+      name: matter.name,
+      status: matter.status,
+      studyDays: matter.studyDays.filter((day) => day !== dayWeek),
+    };
+
+    if (newMatter.studyDays?.length === 0) {
+      axios
+        .delete(`/api/matter/${matter.id}`)
+        .then((response) => {
+          if (response.status != HttpStatusCode.BadRequest) {
+            toast({
+              title: "matter has been deleted",
+              description: "matter has been deleted with success",
+            });
+          } else {
+            throw new Error("Bad Request");
+          }
+        })
+        .catch((error) => {
           toast({
             title: "matter wasn't deleted",
-            description: "matter wasn't deleted with success",
+            description: `Error: ${error}`,
             variant: "destructive",
           });
-        }
-      })
-      .catch((error) => console.error(error))
-      .finally(() => {
-        setIsLoading(false)
-        reload();
-      });
+        })
+        .finally(() => {
+          reload();
+          setTimeout(() => {
+            setIsLoading(false);
+          }, 1500);
+        });
+    } else {
+      axios
+        .put(`/api/matter/${matter.id}`, { ...newMatter })
+        .then((response) => {
+          if (response.status != HttpStatusCode.BadRequest) {
+            toast({
+              title: "matter has been deleted",
+              description: "matter has been deleted with success",
+            });
+          } else {
+            throw new Error("Bad Request");
+          }
+        })
+        .catch((error) => {
+          toast({
+            title: "matter wasn't deleted",
+            description: `Error: ${error}`,
+            variant: "destructive",
+          });
+        })
+        .finally(() => {
+          reload();
+          setTimeout(() => {
+            setIsLoading(false);
+          }, 1500);
+        });
+    }
   };
 
   return (
     <button
       disabled={isLoading}
       onClick={handleDelete}
-      className="text-red-600 p-0 m-0"
+      className="text-red-600 p-0 m-2"
     >
       {!isLoading ? (
         <>
-          <CircleX />
+          <Trash2 size={20} />
         </>
       ) : (
-        <LoaderCircle color="#222222" className='animate-spin'/>
+        <LoaderCircle size={20} color="#222222" className="animate-spin" />
       )}
     </button>
   );
