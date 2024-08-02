@@ -1,7 +1,7 @@
-import { UpdateTargetDto } from '@/dto/update-target.dto';
+import { UpdateTargetDto } from "@/dto/update-target.dto";
 import prismadb from "@/lib/prismadb";
-import { HttpStatusCode } from 'axios';
-import { NextRequest, NextResponse } from 'next/server';
+import { HttpStatusCode } from "axios";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   _: NextRequest,
@@ -31,27 +31,26 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
-    
     const target = await prismadb.target.findUnique({
       where: { id: params.id },
     });
-    
+
     if (target) {
-      const body: UpdateTargetDto  = await req.json();
+      const body: UpdateTargetDto = await req.json();
       const updatedTarget = await prismadb.target.update({
         where: { id: params.id },
         data: {
-          title: body.title ||target.title,
-          deadline: body.deadline ||target.deadline,
+          title: body.title || target.title,
+          deadline: body.deadline || target.deadline,
           subjects: body.subjects || target.subjects,
-          subjectTarget: body.subjectTarget ||target.subjectTarget,
+          subjectTarget: body.subjectTarget || target.subjectTarget,
           status: body.status || target.status,
-          finishedAt: body.finishedAt ||target.finishedAt,
+          finishedAt: body.finishedAt || target.finishedAt,
           updatedAt: new Date(),
         },
       });
       return NextResponse.json({ updatedTarget });
-    } 
+    }
     return NextResponse.json(
       { message: `Target ${params.id} not found` },
       { status: HttpStatusCode.NotFound }
@@ -69,12 +68,15 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const target = await prismadb.matter.findUnique({
+    const target = await prismadb.target.findUnique({
       where: { id: params.id },
     });
 
-    if(target) {
-      const deletedTarget = await prismadb.target.delete({ where: { id: params.id } });
+    if (target) {
+      const deletedTarget = await prismadb.target.delete({
+        where: { id: params.id },
+      });
+      console.log(deletedTarget);
       return NextResponse.json({
         message: `Target ${params.id} has been deleted`,
       });
