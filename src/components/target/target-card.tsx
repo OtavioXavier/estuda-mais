@@ -25,6 +25,7 @@ export default function CardTarget({ target, update }: CardProps) {
     setIsFinishing(true)
     const updatedTarget: UpdateTargetDto = {
       status: false,
+      finishedAt: new Date(),
     };
     axios
       .put(`http://localhost:3000/api/target/${target.id}`, {
