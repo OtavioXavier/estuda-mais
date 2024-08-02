@@ -1,37 +1,63 @@
+"use client";
+
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
-import { useToast } from "@/components/ui/use-toast"
+import { useToast } from "@/components/ui/use-toast";
 
 import { Button } from "@/components/ui/button";
-import { Trash } from "lucide-react";
-import axios from "axios";
+import { Loader2, Trash } from "lucide-react";
+import axios, { HttpStatusCode } from "axios";
 import { Target } from "@prisma/client";
+import { useState } from "react";
+import { UpdateTargetDto } from "@/dto/update-target.dto";
 
 interface CardProps {
   target: Target;
   update: () => void;
 }
 
-export default function CardTarget({target, update}: CardProps) {
+export default function CardTarget({ target, update }: CardProps) {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isFinishing, setIsFinishing] = useState<boolean>(false);
 
-  const { toast } = useToast()
+  const { toast } = useToast();
 
   async function handleFinish() {
-    const updatedTarget = { ...target, status: false };
+    setIsFinishing(true)
+    const updatedTarget: UpdateTargetDto = {
+      status: false,
+    };
     axios
       .put(`http://localhost:3000/api/target/${target.id}`, {
-        target: updatedTarget,
+        ...updatedTarget,
       })
-      .then(()=> {
+      .then((res) => {
+        if (res.data.status != HttpStatusCode.BadRequest) {
+          toast({
+            title: "Target: target is finish",
+            description: "🎉 congratulations you are impressive 🎉",
+          });
+        }
+
+        if (res.data.status === HttpStatusCode.BadRequest)
+          throw new Error("Bad Request");
+        if (res.data.status === HttpStatusCode.NotFound)
+          throw new Error("Not Found");
+      })
+      .catch((error) => {
         toast({
-          title: "Target: target is finish",
-          description: "🎉 congratulations you are impressive",
-        })
+          title: "Error",
+          description: `Something is wrong. Error:${error}`,
+          variant: "destructive",
+        });
       })
-      .catch((error) => console.log(error))
-      .finally(() => update())
+      .finally(() => {
+        update();
+        setIsFinishing(false)
+      });
   }
 
   async function handleDelete() {
+    setIsLoading(true);
     axios
       .delete(`http://localhost:3000/api/target/${target.id}`)
       .then(() => {
@@ -39,11 +65,14 @@ export default function CardTarget({target, update}: CardProps) {
           title: "Target: target is delete",
           description: "😞 It's okay, it wasn't meant to be",
           variant: "destructive",
-        })
+        });
+        update();
       })
       .catch((error) => console.log(error))
-      .finally(() => update())
-
+      .finally(() => {
+        update();
+        setIsLoading(false);
+      });
   }
 
   const date =
@@ -60,12 +89,21 @@ export default function CardTarget({target, update}: CardProps) {
   return (
     <Card className="w-80 h-28 p-3 animate-fadeIn">
       <header className="flex items-center justify-between">
-        <CardTitle className="text-sm w-48 text-left h-10">{target.title}</CardTitle>
-        <CardDescription className='font-normal'>{deadlineFormatted}</CardDescription>
+        <CardTitle className="text-sm w-48 text-left h-10">
+          {target.title}
+        </CardTitle>
+        <CardDescription className="font-normal">
+          {deadlineFormatted}
+        </CardDescription>
       </header>
       <main className="flex items-center justify-between mt-4">
-        <Button variant={"ghost"} className="text-orange-500 p-0" onClick={handleDelete}>
-          <Trash />
+        <Button
+          disabled={isLoading}
+          variant={"ghost"}
+          className="text-red-800 hover:text-red-600 p-0"
+          onClick={handleDelete}
+        >
+          {!isLoading ? <Trash /> : <Loader2 className="animate-spin" />}
         </Button>
         {target.subjectTarget && (
           <p className="text-sm">
@@ -74,7 +112,11 @@ export default function CardTarget({target, update}: CardProps) {
           </p>
         )}
         {!target.subjectTarget && (
-          <Button className="bg-orange-500 font-semibold" onClick={handleFinish}>
+          <Button
+            className={`bg-orange-500 font-semibold ${isFinishing ? "animate-pulse" : ""}`}
+            onClick={handleFinish}
+            disabled={isFinishing}
+          >
             I did it
           </Button>
         )}

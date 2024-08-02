@@ -75,7 +75,7 @@ export default function newTarget() {
     axios
       .post("http://localhost:3000/api/target", { ...data })
       .then((res) => {
-        if(res.data.status != HttpStatusCode.BadRequest) {
+        if (res.data.status === HttpStatusCode.Created) {
           toast({
             title: "Target: target is created",
             description: "🎉 congratulations, you established a target 🎉",
@@ -83,7 +83,8 @@ export default function newTarget() {
           router.push("/target");
         }
 
-        throw new Error("Bad Request")
+        if (res.data.status === HttpStatusCode.BadRequest)
+          throw new Error("Bad Request");
       })
       .catch((error) => {
         console.error(error);

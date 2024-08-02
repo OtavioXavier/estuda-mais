@@ -31,11 +31,13 @@ export default function TargetList() {
   if (!data)
     return <p className="text-base font-normal text-neutral-500">Loading...</p>;
 
+  const targets = data.filter((target) => target.status === true);
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = targets.slice(indexOfFirstItem, indexOfLastItem);
 
-  const totalPages = Math.ceil(data.length / itemsPerPage);
+  const totalPages = Math.ceil(targets.length / itemsPerPage);
 
   const nextPage = () => {
     if (currentPage < totalPages) {
@@ -49,15 +51,22 @@ export default function TargetList() {
     }
   };
 
-  return (
-    <main className="animate-fade-In">
-      {data.length === 0 && (
+  if (targets.length === 0) {
+    return (
+      <div className="grid gap-10">
         <p className="text-sm font-semibold text-neutral-500">
           There is not yet targets
         </p>
-      )}
+        <Link href={"/target/new"}>
+          <Button className="bg-orange-500">Add Target</Button>
+        </Link>
+      </div>
+    );
+  }
 
-      <div className='mb-11 flex flex-col gap-4 md:grid md:grid-cols-2 lg:grid-cols-3'>
+  return (
+    <main className="animate-fade-In">
+      <div className="mb-11 flex flex-col gap-4 md:grid md:grid-cols-2 lg:grid-cols-3">
         {currentItems.map((target) => {
           return <CardTarget key={target.id} target={target} update={mutate} />;
         })}
