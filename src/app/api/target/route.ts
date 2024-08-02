@@ -1,27 +1,24 @@
+import { CreateTargetDto } from "@/dto/create-target.dto";
 import prismadb from "@/lib/prismadb";
+import { HttpStatusCode } from "axios";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const targets = await prismadb.target.findMany({ where: { status: true } });
+    const targets = await prismadb.target.findMany();
 
-    if (targets) {
-      return Response.json({ 
-        message: "targets find with success",
-        data: targets, 
-        status: 200 });
-    }
+    return Response.json({ data: targets });
   } catch (error) {
     console.log(error);
-    return Response.json({ message: "Internal sever error", status: 500 });
+    return Response.json({ error: error });
   }
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
-    const { title, deadline, type, subjects } = body.data;
+    const target: CreateTargetDto = await req.json();
 
-    console.log(body);
+    const { title, deadline, type, subjects } = target;
 
     if (
       !title ||
@@ -29,9 +26,9 @@ export async function POST(req: Request) {
       !type ||
       (type && type === "subjects" && !subjects)
     ) {
-      return Response.json(
+      return NextResponse.json(
         { message: "Missing required fields" },
-        { status: 400 }
+        { status: HttpStatusCode.BadRequest }
       );
     }
 
@@ -48,11 +45,16 @@ export async function POST(req: Request) {
     });
 
     if (createdTarget) {
-      console.log("new Target: ", body);
-      return Response.json({ message: "target created", status: 201 });
+      return NextResponse.json({
+        target,
+        message: "Your target has been created",
+        status: HttpStatusCode.Created,
+      });
     }
   } catch (error) {
-    console.log(error);
-    return Response.json({ message: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json(
+      { message: error },
+      { status: HttpStatusCode.BadRequest }
+    );
   }
 }
