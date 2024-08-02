@@ -5,25 +5,24 @@ import { Event } from "@prisma/client";
 import axios from "axios";
 import { useToast } from "@/components/ui/use-toast";
 import { ReactNode, useState } from "react";
+import { Trash } from "lucide-react";
 
 interface ButtonProps {
   event: Event;
   update: () => void;
   variant: "finish" | "delete";
-  children: ReactNode;
 }
 
 export default function UpdateButton({
   event,
   update,
   variant,
-  children,
 }: ButtonProps) {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleClick = () => {
-    setIsLoading(true)
+    setIsLoading(true);
     const newEvent = {
       ...event,
       status: false,
@@ -51,14 +50,32 @@ export default function UpdateButton({
       })
       .catch((error) => console.error(error))
       .finally(() => {
-        setIsLoading(false)
-        update()
-      })
+        setIsLoading(false);
+        update();
+      });
   };
 
-  return (
-    <Button disabled={isLoading} variant={"ghost"} className="m-0 p-0" onClick={handleClick}>
-      {children}
-    </Button>
+  if (variant === "finish") {
+    return (
+    <Button 
+    disabled={isLoading}
+    onClick={handleClick} 
+    className="bg-orange-500 font-semibold">I did it</Button>
   );
+  }
+
+  if (variant === "delete") {
+    return (
+      <div>
+        <Button
+          disabled={isLoading}
+          variant={"ghost"}
+          className="m-0 p-0"
+          onClick={handleClick}
+        >
+          <Trash />
+        </Button>
+      </div>
+    );
+  }
 }

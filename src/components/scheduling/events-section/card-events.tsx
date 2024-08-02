@@ -56,12 +56,8 @@ export default function CardEvents({ event, update }: CardProps) {
         </CardDescription>
       </header>
       <main className="flex items-center justify-between mt-4">
-        <UpdateButton event={event} update={update} variant="delete">
-          <Trash />
-        </UpdateButton>
-        <UpdateButton event={event} update={update} variant="finish">
-          <Button className="bg-orange-500 font-semibold">I did it</Button>
-        </UpdateButton>
+        <UpdateButton event={event} update={update} variant="delete" />
+        <UpdateButton event={event} update={update} variant="finish" />
       </main>
     </Card>
   );
