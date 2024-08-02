@@ -30,6 +30,8 @@ import { Check, GraduationCap } from "lucide-react";
 import { DialogClose } from "../../ui/dialog";
 import axios from "axios";
 import { useState } from "react";
+import { UpdateMatterDto } from "@/dto/update-matter.dto";
+import { CreateMatterDto } from "@/dto/create-matter.dto";
 
 interface PropsForm {
   mattersList?: Matter[];
@@ -37,20 +39,26 @@ interface PropsForm {
   update: () => void;
 }
 
+const createFormSchema = (existingMatterNames: string[]) => z.object({
+  selectedMatter: z.string().nonempty("Select a matter"),
+  newMatter: z.string().optional().refine((newMatter) => {
+    if (!newMatter) return true;
+    return !existingMatterNames.includes(newMatter);
+  }, {
+    message: "This matter already exists.",
+  }),
+});
+
 export default function CreateMatterForm({
   mattersList = [],
   day,
   update,
 }: PropsForm) {
-
-
-  const formSchema = z.object({
-    selectedMatter: z.string(),
-    newMatter: z.string().optional(),
-  });
-
   const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const existingMatterNames = mattersList.map((matter) => matter.name);
+  
+  const formSchema = createFormSchema(existingMatterNames);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -64,43 +72,69 @@ export default function CreateMatterForm({
   const matterNew = form.watch("newMatter");
 
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
-    if (data.selectedMatter !== "new") {
-      const matter = mattersList.find((m) => m.name === data.selectedMatter);
-      if (matter) await uploadMatter(matter);
-      console.log(matter);
-    } else if (data.newMatter) {
-      await uploadMatter(undefined, data.newMatter);
+    setIsLoading(true);
+    try {
+      if (data.selectedMatter !== "new") {
+        const matter = mattersList.find((m) => m.name === data.selectedMatter);
+        if (matter) {
+          await uploadMatter(matter);
+        }
+      } else if (data.newMatter) {
+        await uploadMatter(undefined, data.newMatter);
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: `An error occurred: ${error.message}`,
+        variant: "destructive",
+      });
+    } finally {
+      update();
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1500);
     }
   };
 
   const uploadMatter = async (matter?: Matter, matterName?: string) => {
-    setIsLoading(true);
     try {
       if (matter) {
-        matter.studyDays = [...(matter.studyDays || []), day];
-        await axios.put(`/api/matter/${matter.id}`, { matter: matter });
-        toast({
-          title: "Matter updated",
-          description: "Your matter was added to the new day",
-        });
+        const updatedMatter: UpdateMatterDto = {
+          studyDays: [...(matter.studyDays || []), day],
+          name: matter.name,
+          status: matter.status,
+        };
+        const res = await axios.put(`/api/matter/${matter.id}`, updatedMatter);
+        if (res.status !== 400) {
+          toast({
+            title: "Matter updated",
+            description: "Your matter has been added to the new day.",
+          });
+        } else {
+          throw new Error("Bad Request");
+        }
       } else if (matterName) {
-        const newMatter = { name: matterName, status: true, studyDays: [day] };
-        await axios.post(`/api/matter`, { matter: newMatter });
-        toast({
-          title: "Matter created",
-          description: "Your matter was added to the new day",
-        });
+        const newMatter: CreateMatterDto = {
+          name: matterName,
+          status: true,
+          studyDays: [day],
+        };
+        const res = await axios.post(`/api/matter`, newMatter);
+        if (res.status !== 400) {
+          toast({
+            title: "Matter created",
+            description: "Your matter has been added to the new day.",
+          });
+        } else {
+          throw new Error("Bad Request");
+        }
       }
-    } catch (error) {
+    } catch (error: any) {
       toast({
-        title: `Error on matter ${matter ? "update" : "creation"}`,
-        description: "Server issue, your matter wasn't processed",
+        title: "Error",
+        description: `An error occurred: ${error.message}`,
         variant: "destructive",
       });
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-      update();
     }
   };
 
@@ -165,6 +199,7 @@ export default function CreateMatterForm({
                 (matterType === "new" && matterNew === "")
               }
               className="flex items-center justify-content gap-4"
+              type="submit"
             >
               {isLoading ? (
                 "Loading..."
@@ -175,7 +210,7 @@ export default function CreateMatterForm({
               )}
             </Button>
             <DialogClose asChild>
-              <Button className="flex items-center justify-content gap-4">
+              <Button disabled={isLoading} className="flex items-center justify-content gap-4">
                 Done <Check />
               </Button>
             </DialogClose>
