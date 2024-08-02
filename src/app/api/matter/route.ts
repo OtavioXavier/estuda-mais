@@ -28,6 +28,7 @@ export async function POST(req: NextRequest) {
           ...matter,
         },
       });
+      
       return NextResponse.json({
         matter,
         message: "Your matter has been created",
@@ -36,7 +37,7 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json(
-      { message: "matter fields is missing" },
+      { message: "Matter fields is missing" },
       { status: HttpStatusCode.BadRequest }
     );
   } catch (error) {

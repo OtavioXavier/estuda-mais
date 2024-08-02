@@ -40,13 +40,13 @@ export async function PUT(
       const updatedMatter = await prismadb.matter.update({
         where: { id: params.id },
         data: {
-          updatedAt: body.updated_at,
+          updatedAt: new Date(),
           name: body.name || matter.name,
           status: body.status || matter.status,
           studyDays: body.studyDays || matter.studyDays,
         },
       });
-      return NextResponse.json({ matter });
+      return NextResponse.json({ updatedMatter });
     }
     return NextResponse.json(
       { message: `Matter ${params.id} not found` },
