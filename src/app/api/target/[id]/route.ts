@@ -44,7 +44,7 @@ export async function PUT(
           deadline: body.deadline || target.deadline,
           subjects: body.subjects || target.subjects,
           subjectTarget: body.subjectTarget || target.subjectTarget,
-          status: body.status || target.status,
+          status: body.status ?? target.status,
           finishedAt: body.finishedAt || target.finishedAt,
           updatedAt: new Date(),
         },
