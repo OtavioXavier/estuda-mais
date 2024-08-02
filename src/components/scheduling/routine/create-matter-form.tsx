@@ -209,11 +209,6 @@ export default function CreateMatterForm({
                 </>
               )}
             </Button>
-            <DialogClose asChild>
-              <Button disabled={isLoading} className="flex items-center justify-content gap-4">
-                Done <Check />
-              </Button>
-            </DialogClose>
           </div>
         </form>
       </Form>
