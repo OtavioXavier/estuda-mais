@@ -20,17 +20,19 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, Loader2 } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import axios from "axios";
+import axios, { HttpStatusCode } from "axios";
+import { useState } from "react";
 
 export default function newTarget() {
   const { toast } = useToast();
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const formSchema = z
     .object({
@@ -64,21 +66,36 @@ export default function newTarget() {
       title: "",
       deadline: new Date(),
       type: "to do",
-      subjects: 1
+      subjects: 1,
     },
   });
 
   const handleSubmit = (data: z.infer<typeof formSchema>) => {
+    setIsLoading(true);
     axios
-      .post("http://localhost:3000/api/target", { data })
-      .then(() => {
-        toast({
-          title: "Target: target is created",
-          description: "🎉 congratulations, you established a target",
-        });
-            router.push("/target");
+      .post("http://localhost:3000/api/target", { ...data })
+      .then((res) => {
+        if(res.data.status != HttpStatusCode.BadRequest) {
+          toast({
+            title: "Target: target is created",
+            description: "🎉 congratulations, you established a target 🎉",
+          });
+          router.push("/target");
+        }
+
+        throw new Error("Bad Request")
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error(error);
+        toast({
+          title: "Error",
+          description: `Something wrong error: ${error}`,
+          variant: "destructive",
+        });
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   const targetType = form.watch("type");
@@ -208,7 +225,10 @@ export default function newTarget() {
               }}
             />
           )}
-          <Button type="submit" className='bg-orange-500'>Submit</Button>
+          <Button disabled={isLoading} type="submit" className="bg-orange-500">
+            {!isLoading ? "Submit" : "Loading..."}
+            {isLoading ? <Loader2 className="animate-spin ml-3" /> : ""}
+          </Button>
         </form>
       </Form>
     </section>
