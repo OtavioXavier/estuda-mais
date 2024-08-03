@@ -54,7 +54,7 @@ export default function Routine() {
   ] as const;
 
   const { data, error, mutate } = useSWR(
-    "http://localhost:3000/api/matter",
+    "/api/matter",
     fetcher
   );
 

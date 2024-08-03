@@ -14,7 +14,7 @@ const fetcher: Fetcher<Event[], string> = (url: string) =>
 
 export default function Events() {
   const { data, error, mutate } = useSWR(
-    "http://localhost:3000/api/event",
+    "/api/event",
     fetcher
   );
 
