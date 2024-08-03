@@ -1,6 +1,6 @@
 "use client";
 
-import { CircleX, LoaderCircle, Trash2 } from "lucide-react";
+import { LoaderCircle, Trash2 } from "lucide-react";
 import axios, { HttpStatusCode } from "axios";
 
 import { useToast } from "../../ui/use-toast";
