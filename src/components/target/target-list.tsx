@@ -22,12 +22,14 @@ export default function TargetList() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
 
-  if (error)
+  if (error){
+    console.log(error)
     return (
       <p className="text-base font-normal text-neutral-500">
         Failed to load items
       </p>
-    );
+    );}
+
   if (!data)
     return <p className="text-base font-normal text-neutral-500">Loading...</p>;
 
