@@ -31,14 +31,16 @@ export default function DeleteButton({ matter, reload, dayWeek }: ButtonProps) {
       axios
         .delete(`/api/matter/${matter.id}`)
         .then((response) => {
-          if (response.status != HttpStatusCode.BadRequest) {
+          if(response.data.status === HttpStatusCode.BadRequest) throw new Error("Bad Request");
+          if(response.data.status === HttpStatusCode.NotFound) throw new Error("Not Found");
+
+
+          if (response.data.status !== HttpStatusCode.BadRequest && response.data.status !== HttpStatusCode.NotFound) {
             toast({
               title: "matter has been deleted",
               description: "matter has been deleted with success",
             });
-          } else {
-            throw new Error("Bad Request");
-          }
+          } 
         })
         .catch((error) => {
           toast({
