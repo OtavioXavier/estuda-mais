@@ -15,7 +15,7 @@ const fetcher: Fetcher<Target[], string> = (url: string) =>
 
 export default function TargetList() {
   const { data, error, mutate } = useSWR(
-    "http://localhost:3000/api/target",
+    "/api/target",
     fetcher
   );
 
