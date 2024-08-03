@@ -30,7 +30,6 @@ export default function ZenButton() {
   };
 
   return (
-    // className="md:flex hidden items-center space-x-2 text-slate-400"
     <div className={twMerge("md:flex hidden items-center space-x-2 text-slate-400", isZenMode ? "text-orange-500" : "")}>
       <Origami />
       <Label>Zen Mode</Label>
