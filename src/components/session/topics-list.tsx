@@ -22,7 +22,7 @@ export default function TopicsList({ matters }: ListProps) {
       status: value,
     };
     axios
-      .put(`api/topic/${topic.id}`, { topic: newTopic })
+      .put(`/api/topic/${topic.id}`, { topic: newTopic })
       .then((response) => {
         if (response.data.status === 200 && value) {
           toast({
@@ -46,7 +46,7 @@ export default function TopicsList({ matters }: ListProps) {
   const handleDelete = (topic: Topic) => {
     setLoadingTopicId(topic.id);
     axios
-      .delete(`api/topic/${topic.id}`)
+      .delete(`/api/topic/${topic.id}`)
       .then((response) => {
         if (response.data.status === 200) {
           toast({

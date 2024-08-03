@@ -28,7 +28,7 @@ export default function CardTarget({ target, update }: CardProps) {
       finishedAt: new Date(),
     };
     axios
-      .put(`http://localhost:3000/api/target/${target.id}`, {
+      .put(`/api/target/${target.id}`, {
         ...updatedTarget,
       })
       .then((res) => {
@@ -60,7 +60,7 @@ export default function CardTarget({ target, update }: CardProps) {
   async function handleDelete() {
     setIsLoading(true);
     axios
-      .delete(`http://localhost:3000/api/target/${target.id}`)
+      .delete(`/api/target/${target.id}`)
       .then(() => {
         toast({
           title: "Target: target is delete",

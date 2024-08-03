@@ -73,7 +73,7 @@ export default function newTarget() {
   const handleSubmit = (data: z.infer<typeof formSchema>) => {
     setIsLoading(true);
     axios
-      .post("http://localhost:3000/api/target", { ...data })
+      .post("/api/target", { ...data })
       .then((res) => {
         if (res.data.status === HttpStatusCode.Created) {
           toast({
