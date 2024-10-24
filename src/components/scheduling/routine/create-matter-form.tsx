@@ -45,7 +45,7 @@ const createFormSchema = (existingMatterNames: string[]) => z.object({
     if (!newMatter) return true;
     return !existingMatterNames.includes(newMatter);
   }, {
-    message: "This matter already exists.",
+    message: "Esta matéria ainda não existe.",
   }),
 });
 
@@ -84,8 +84,8 @@ export default function CreateMatterForm({
       }
     } catch (error: any) {
       toast({
-        title: "Error",
-        description: `An error occurred: ${error.message}`,
+        title: "🚧Erro🚧",
+        description: `Algo deu errado`,
         variant: "destructive",
       });
     } finally {
@@ -107,8 +107,8 @@ export default function CreateMatterForm({
         const res = await axios.put(`/api/matter/${matter.id}`, updatedMatter);
         if (res.status !== 400) {
           toast({
-            title: "Matter updated",
-            description: "Your matter has been added to the new day.",
+            title: "Matéria atualizada",
+            description: "Sua matéria foi atualizada.",
           });
         } else {
           throw new Error("Bad Request");
@@ -122,8 +122,8 @@ export default function CreateMatterForm({
         const res = await axios.post(`/api/matter`, newMatter);
         if (res.status !== 400) {
           toast({
-            title: "Matter created",
-            description: "Your matter has been added to the new day.",
+            title: "🥳Materia Adicionada",
+            description: "Sua matéria foi adicionada.",
           });
         } else {
           throw new Error("Bad Request");
@@ -131,8 +131,8 @@ export default function CreateMatterForm({
       }
     } catch (error: any) {
       toast({
-        title: "Error",
-        description: `An error occurred: ${error.message}`,
+        title: "🚧Erro🚧",
+        description: `Algo deu errado`,
         variant: "destructive",
       });
     }
@@ -150,11 +150,11 @@ export default function CreateMatterForm({
             name="selectedMatter"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Select a new matter</FormLabel>
+                <FormLabel>Selecione uma nova matéria</FormLabel>
                 <FormControl>
                   <Select onValueChange={field.onChange}>
                     <SelectTrigger className="w-[200px]">
-                      <SelectValue placeholder="Select a matter" />
+                      <SelectValue placeholder="Selecione uma matéria" />
                     </SelectTrigger>
                     <SelectContent>
                       {mattersList.map((matter) => (
@@ -162,7 +162,7 @@ export default function CreateMatterForm({
                           {matter.name}
                         </SelectItem>
                       ))}
-                      <SelectItem value="new">New matter</SelectItem>
+                      <SelectItem value="new">Nova matéria</SelectItem>
                     </SelectContent>
                   </Select>
                 </FormControl>
@@ -177,11 +177,11 @@ export default function CreateMatterForm({
                 name="newMatter"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Write your new matter</FormLabel>
+                    <FormLabel>Digite a nova matéria</FormLabel>
                     <FormControl>
                       <Input
                         className="w-[200px]"
-                        placeholder="My new matter"
+                        placeholder="Nova matéria"
                         {...field}
                       />
                     </FormControl>
@@ -202,10 +202,10 @@ export default function CreateMatterForm({
               type="submit"
             >
               {isLoading ? (
-                "Loading..."
+                "Carregando..."
               ) : (
                 <>
-                  Add matter <GraduationCap />
+                  Adicionar Matéria <GraduationCap />
                 </>
               )}
             </Button>

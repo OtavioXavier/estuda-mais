@@ -21,8 +21,8 @@ export default function Events() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
 
-  if (error) return <p>Failed to loading events...</p>;
-  if (!data) return <p>Loading...</p>;
+  if (error) return <p>Falha ao carregar os eventos...</p>;
+  if (!data) return <p>Carregando...</p>;
 
   const events = data.filter((events) => events.status === true);
 
@@ -48,10 +48,10 @@ export default function Events() {
     return (
       <div className="grid gap-10">
         <p className="text-sm font-semibold text-neutral-500">
-          There is not yet events
+          Ainda não há evetos...
         </p>
         <Link href={"/scheduling/new-event"}>
-          <Button className="bg-orange-500">Add Event</Button>
+          <Button className="bg-orange-500">Adicionar Evento</Button>
         </Link>
       </div>
     );
@@ -73,7 +73,7 @@ export default function Events() {
           <ChevronLeft />
         </Button>
         <span>
-          Page {currentPage} of {totalPages}
+          Página {currentPage} de {totalPages}
         </span>
         <Button
           className="w-18"
@@ -84,7 +84,7 @@ export default function Events() {
         </Button>
       </div>
       <Link href={"/scheduling/new-event"}>
-        <Button className="bg-orange-500">Add Event</Button>
+        <Button className="bg-orange-500">Adicionar Evento</Button>
       </Link>
     </div>
   );

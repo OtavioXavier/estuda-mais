@@ -26,14 +26,14 @@ export default function TopicsList({ matters }: ListProps) {
       .then((response) => {
         if (response.data.status === 200 && value) {
           toast({
-            title: "Congratulations",
-            description: "Topic finished with success",
+            title: "Parabéns🎉",
+            description: "Tópico terminado com sucesso",
           });
         }
         if (response.data.status === 400 || response.data.status === 500) {
           toast({
-            title: "Error",
-            description: "Something is wrong",
+            title: "🚧Erro🚧",
+            description: "Algo deu errado",
           });
         }
       })
@@ -50,13 +50,13 @@ export default function TopicsList({ matters }: ListProps) {
       .then((response) => {
         if (response.data.status === 200) {
           toast({
-            title: "Sad",
-            description: "Topic deleted with success",
+            title: "Triste😢",
+            description: "Tópico desistido com sucesso",
           });
         } else {
           toast({
-            title: "Error",
-            description: "Something is wrong",
+            title: "🚧Erro🚧",
+            description: "Algo deu errado",
           });
         }
       })

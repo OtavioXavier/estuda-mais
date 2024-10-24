@@ -40,7 +40,7 @@ export default function CardEvents({ event, update }: CardProps) {
           <Dialog>
             <DialogTrigger asChild>
               <Button variant="link" className="justify-start p-0 m-0 mt-2">
-                Description
+                Descrição
               </Button>
             </DialogTrigger>
             <DialogContent>

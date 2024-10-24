@@ -34,11 +34,11 @@ export default function UpdateButton({
       .then((res) => {
         if (res.data.status === 200) {
           toast({
-            title: variant === "delete" ? "Event deleted" : "Event finished",
+            title: variant === "delete" ? "Evento deletado" : "Evento finalizado",
             description:
               variant === "delete"
-                ? "all right not always everything works"
-                : "Congratulations you did it",
+                ? "Infelizmente não deu, mas vai existir uma próxima"
+                : "Parabéns você conseguiu!!",
             variant: variant === "delete" ? "destructive" : "default",
           });
         } else {
@@ -60,7 +60,7 @@ export default function UpdateButton({
     <Button 
     disabled={isLoading}
     onClick={handleClick} 
-    className="bg-orange-500 font-semibold">I did it</Button>
+    className="bg-orange-500 font-semibold">Eu consegui</Button>
   );
   }
 

@@ -37,15 +37,15 @@ export default function DeleteButton({ matter, reload, dayWeek }: ButtonProps) {
 
           if (response.data.status !== HttpStatusCode.BadRequest && response.data.status !== HttpStatusCode.NotFound) {
             toast({
-              title: "matter has been deleted",
-              description: "matter has been deleted with success",
+              title: "🗑Matéria foi deletada🗑",
+              description: "Matéria foi deletada com sucesso",
             });
           } 
         })
         .catch((error) => {
           toast({
-            title: "matter wasn't deleted",
-            description: `Error: ${error}`,
+            title: "🚧Erro🚧",
+            description: `Algo deu errado`,
             variant: "destructive",
           });
         })
@@ -61,8 +61,8 @@ export default function DeleteButton({ matter, reload, dayWeek }: ButtonProps) {
         .then((response) => {
           if (response.status != HttpStatusCode.BadRequest) {
             toast({
-              title: "matter has been deleted",
-              description: "matter has been deleted with success",
+              title: "Matéria foi deletada",
+              description: "Matéria foi deletada com sucesso",
             });
           } else {
             throw new Error("Bad Request");
@@ -70,8 +70,8 @@ export default function DeleteButton({ matter, reload, dayWeek }: ButtonProps) {
         })
         .catch((error) => {
           toast({
-            title: "matter wasn't deleted",
-            description: `Error: ${error}`,
+            title: "🚧Erro🚧",
+            description: `Algo deu errado`,
             variant: "destructive",
           });
         })

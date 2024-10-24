@@ -32,23 +32,23 @@ export default function SelectClock({
 }: SelectProps) {
   return (
     <div className="flex flex-col items-start gap-4 mt-8">
-      <Label>Clock Type</Label>
+      <Label>Tipo de Cronometro</Label>
       <Select onValueChange={setClock} defaultValue='default'>
         <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Select a clock type" />
+          <SelectValue placeholder="Selecione o tipo de cronometro" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectLabel>Clock Types</SelectLabel>
+            <SelectLabel>Tipo de Cronometro</SelectLabel>
             <SelectItem value="pomodoro">Pomodoro</SelectItem>
-            <SelectItem value="default">Default</SelectItem>
+            <SelectItem value="default">Padrão</SelectItem>
           </SelectGroup>
         </SelectContent>
       </Select>
       {clockType === "pomodoro" && (
         <>
           <div className="flex flex-col items-start gap-4 mt-4">
-            <Label>Study Time</Label>
+            <Label>Tempo de Estudo (Minutos)</Label>
             <Input
               placeholder="25"
               type="number"
@@ -56,11 +56,11 @@ export default function SelectClock({
               className="w-32"
             />
             <p className="text-sm text-neutral-500">
-              Type how many time you study
+              Por quanto tempo você vai estudar, em minutos?
             </p>
           </div>
           <div className="flex flex-col items-start gap-4 mt-4">
-            <Label>Rest Time</Label>
+            <Label>Tempo de Descanso (Minutos)</Label>
             <Input
               placeholder="5"
               type="number"
@@ -68,11 +68,11 @@ export default function SelectClock({
               className="w-32"
             />
             <p className="text-sm text-neutral-500">
-              Type how many time your break time
+              Por quanto tempo você vai descansar, em minutos?
             </p>
           </div>
           <div className="flex flex-col items-start gap-4 mt-4">
-            <Label>How Many times</Label>
+            <Label>Repetições</Label>
             <Input
               placeholder="2"
               type="number"
@@ -80,14 +80,14 @@ export default function SelectClock({
               className="w-32"
             />
             <p className="text-sm text-neutral-500">
-              Type how many times repeat...
+              Quantas vezes o cronometro deve se repetir?
             </p>
           </div>
         </>
       )}
       {clockType === "default" && (
         <div className="flex flex-col items-start gap-4 mt-4">
-        <Label>Study Time</Label>
+        <Label>Tempo de Estudo (Horas)</Label>
         <Input
           placeholder="2"
           type="number"
@@ -95,7 +95,7 @@ export default function SelectClock({
           className="w-32"
         />
         <p className="text-sm text-neutral-500">
-          Type how many time you study in hours.
+          Quanto tempo você vai estudar, em horas?
         </p>
       </div>
       )}

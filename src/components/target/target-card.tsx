@@ -34,8 +34,8 @@ export default function CardTarget({ target, update }: CardProps) {
       .then((res) => {
         if (res.data.status != HttpStatusCode.BadRequest) {
           toast({
-            title: "Target: target is finish",
-            description: "🎉 congratulations you are impressive 🎉",
+            title: "Objetivo: Objetivo foi finalizado",
+            description: "🎉 parabéns você é impressionante 🎉",
           });
         }
 
@@ -46,8 +46,8 @@ export default function CardTarget({ target, update }: CardProps) {
       })
       .catch((error) => {
         toast({
-          title: "Error",
-          description: `Something is wrong. Error:${error}`,
+          title: "🚧Erro🚧",
+          description: `Algo deu errado.`,
           variant: "destructive",
         });
       })
@@ -63,8 +63,8 @@ export default function CardTarget({ target, update }: CardProps) {
       .delete(`/api/target/${target.id}`)
       .then(() => {
         toast({
-          title: "Target: target is delete",
-          description: "😞 It's okay, it wasn't meant to be",
+          title: "Objetivo: Objetivo foi deletado",
+          description: "😞 está tudo bem, não foi dessa vez",
           variant: "destructive",
         });
         update();
@@ -118,7 +118,7 @@ export default function CardTarget({ target, update }: CardProps) {
             onClick={handleFinish}
             disabled={isFinishing}
           >
-            I did it
+            Eu consegui
           </Button>
         )}
       </main>

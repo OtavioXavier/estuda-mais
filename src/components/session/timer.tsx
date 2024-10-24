@@ -143,7 +143,7 @@ export default function Timer({
             {formatTime(timeLeft)}
           </h1>
         </div>
-        <p className="text-lg font-semibold text-neutral-500">Total Time</p>
+        <p className="text-lg font-semibold text-neutral-500">Tempo Total</p>
         <div className="flex items-center justify-content gap-4">
           {isRunning ? (
             <Button className="bg-blue-800" onClick={stopTimer}>

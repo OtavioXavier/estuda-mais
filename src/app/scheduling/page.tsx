@@ -32,21 +32,21 @@ export default function Scheduling() {
           />
           <div className='flex items-center gap-4'>
             <Button className={isEvents ? "bg-neutral-200 border-neutral-400" : ""} variant={"outline"} onClick={handleClickEvents}>
-              Events
+              Eventos
             </Button>
             <Button className={isRoutine ? "bg-neutral-200 border-neutral-400" : ""} variant={"outline"} onClick={handleClickRoutine}>
-              Routine
+              Rotina
             </Button>
           </div>
         </section>
         <section>
           {isEvents && (
-            <Section title="Events">
+            <Section title="Evento">
              <Events />
             </Section>
           )}
           {isRoutine && (
-            <Section title="Routine">
+            <Section title="Rotina">
               <Routine />
             </Section>
           )}

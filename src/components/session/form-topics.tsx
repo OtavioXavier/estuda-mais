@@ -33,7 +33,7 @@ import { useState } from 'react';
 
 const FormSchema = z.object({
   topic: z.string().min(2, {
-    message: "Topic must be at least 2 characters.",
+    message: "Topico deve ter ao menos 2 caracteres.",
   }),
 });
 
@@ -63,8 +63,8 @@ export default function FormTopics({ matter, update }: FormProps) {
     .then((res) => {
      if(res.data.status == 201) {
        toast({
-        title: "Success",
-        description: `A new topic is added to ${matter.name}`
+        title: "Sucesso",
+        description: `Um novo topico foi adicionado a ${matter.name}`
        })
      }
 
@@ -102,13 +102,13 @@ export default function FormTopics({ matter, update }: FormProps) {
                       <Input placeholder="Type your topic..." {...field} />
                     </FormControl>
                     <FormDescription>
-                      Type your new {matter.name}'s topic.
+                      Digite seu novo topico a {matter.name}.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <Button disabled={isLoading} type="submit" className='bg-orange-500'>Submit</Button>
+              <Button disabled={isLoading} type="submit" className='bg-orange-500'>Enviar</Button>
             </form>
           </Form>
         </div>

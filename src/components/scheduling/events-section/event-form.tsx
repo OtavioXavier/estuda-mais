@@ -63,14 +63,14 @@ export default function EventForm() {
     .then((response) => {
     if(response.data.status === 201) {
       toast({
-        title: "Event created with success",
-        description: "Your new event has been created"
+        title: "🥳Sucesso🥳",
+        description: "Evento adicionado com sucesso"
       })
       router.push('/scheduling');
     } else {
       toast({
-        title: "Something is wrong",
-        description: "error during the creating",
+        title: "🚧Erro🚧",
+        description: "Something is wrong",
         variant: "destructive",
       })
     }
@@ -91,7 +91,7 @@ export default function EventForm() {
             render={({ field }) => {
               return (
                 <FormItem className="flex flex-col items-start">
-                  <FormLabel>Event Date</FormLabel>
+                  <FormLabel>Data do Evento</FormLabel>
                   <FormControl>
                     <Popover>
                       <PopoverTrigger asChild>
@@ -106,7 +106,7 @@ export default function EventForm() {
                             {field.value ? (
                               format(field.value, "PPP")
                             ) : (
-                              <span>Pick a date</span>
+                              <span>Selecione a data</span>
                             )}
                             <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                           </Button>
@@ -135,9 +135,9 @@ export default function EventForm() {
             render={({ field }) => {
               return (
                 <FormItem className="flex flex-col items-start">
-                  <FormLabel>Event Title</FormLabel>
+                  <FormLabel>Titulo do evento</FormLabel>
                   <FormControl>
-                    <Input placeholder="Type event title..." {...field} />
+                    <Input placeholder="Digite o titulo do evento..." {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -150,10 +150,10 @@ export default function EventForm() {
             render={({ field }) => {
               return (
                 <FormItem className="flex flex-col items-start">
-                  <FormLabel>Event Title</FormLabel>
+                  <FormLabel>Titulo do evento</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Type event description..."
+                      placeholder="Digite a descrição do evento..."
                       className="h-24"
                       {...field}
                     />
@@ -164,7 +164,7 @@ export default function EventForm() {
             }}
           />
           
-          {!isLoading ? <><Button className='bg-orange-500'>Submit</Button></> : <><Button className='bg-neutral-500 flex items-center gap-4'>Loading... <LoaderCircle  className='animate-spin'/></Button></>}
+          {!isLoading ? <><Button className='bg-orange-500'>Enviar</Button></> : <><Button className='bg-neutral-500 flex items-center gap-4'>Carregando... <LoaderCircle  className='animate-spin'/></Button></>}
         </form>
       </Form>
     </div>

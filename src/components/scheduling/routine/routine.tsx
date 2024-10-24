@@ -58,8 +58,8 @@ export default function Routine() {
     fetcher
   );
 
-  if (error) return <div>Failed to load matters</div>;
-  if (!data) return <div>Loading...</div>;
+  if (error) return <div>Falhou ao carregar materias</div>;
+  if (!data) return <div>Carregando...</div>;
 
   return (
     <div>
@@ -122,10 +122,10 @@ export default function Routine() {
                       <DialogContent>
                         <DialogHeader>
                           <DialogTitle>
-                            Add a matter to {weekDay.name}
+                            Adicionar uma matéria na {weekDay.name}
                           </DialogTitle>
                           <DialogDescription>
-                            Add a new matter in you routine.
+                            Adicione uma nova matéria na sua rotina.
                           </DialogDescription>
                         </DialogHeader>
                         <CreateMatterForm
@@ -140,7 +140,7 @@ export default function Routine() {
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button className="flex items-center gap-4 animate-fadeIn bg-orange-500 hover:bg-orange-400">
-                          Add Matter
+                          Adicionar Matéria
                           <GraduationCap />
                         </Button>
                       </PopoverTrigger>
@@ -164,7 +164,7 @@ export default function Routine() {
         className="flex items-center gap-2"
         onClick={() => setIsEditing(!isEditing)}
       >
-        <Pencil size={16} /> {isEditing ? "Save" : "Edit"}
+        <Pencil size={16} /> {isEditing ? "Salvar" : "Editar"}
       </Button>
     </div>
   );

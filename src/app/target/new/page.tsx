@@ -37,11 +37,11 @@ export default function newTarget() {
   const formSchema = z
     .object({
       title: z
-        .string({ required_error: "A title is required" })
-        .min(3, { message: "Title must contain at least 3 characters" }),
-      deadline: z.date({ required_error: "A deadline is required" }),
+        .string({ required_error: "Um titulo é obrigatório" })
+        .min(3, { message: "Um titúlo precisa ter pelo menos 3 caracteres" }),
+      deadline: z.date({ required_error: "Uma data final é obrigatória" }),
       type: z.enum(["to do", "subjects"], {
-        required_error: "A type is required",
+        required_error: "Um tipo é obrigatório",
       }),
       subjects: z.preprocess((value) => {
         return Number(value);
@@ -55,7 +55,7 @@ export default function newTarget() {
         return true;
       },
       {
-        message: "subjects quantity is required on subjects type",
+        message: "Quantidade de taferas é exigida neste tipo",
         path: ["subjects"],
       }
     );
@@ -77,8 +77,8 @@ export default function newTarget() {
       .then((res) => {
         if (res.data.status === HttpStatusCode.Created) {
           toast({
-            title: "Target: target is created",
-            description: "🎉 congratulations, you established a target 🎉",
+            title: "🎉 Parabéns 🎉",
+            description: "Objetivo criado, você estabeleceu uma meta",
           });
           router.push("/target");
         }
@@ -89,8 +89,8 @@ export default function newTarget() {
       .catch((error) => {
         console.error(error);
         toast({
-          title: "Error",
-          description: `Something wrong error: ${error}`,
+          title: "🚧Erro🚧",
+          description: `Algo deu errado`,
           variant: "destructive",
         });
       })
@@ -114,11 +114,11 @@ export default function newTarget() {
             render={({ field }) => {
               return (
                 <FormItem className="flex flex-col items-start">
-                  <FormLabel className="text-xl font-semibold">Title</FormLabel>
+                  <FormLabel className="text-xl font-semibold">Título</FormLabel>
                   <FormControl>
                     <Textarea
                       className="resize-none font-normal"
-                      placeholder="type your target title"
+                      placeholder="Digite o título do seu objetivo"
                       {...field}
                     />
                   </FormControl>
@@ -134,7 +134,7 @@ export default function newTarget() {
               return (
                 <FormItem className="flex flex-col items-start">
                   <FormLabel className="text-xl font-semibold">
-                    Deadline
+                    Data final
                   </FormLabel>
                   <FormControl>
                     <Popover>
@@ -150,7 +150,7 @@ export default function newTarget() {
                             {field.value ? (
                               format(field.value, "PPP")
                             ) : (
-                              <span>Pick a date</span>
+                              <span>Selecione uma data</span>
                             )}
                             <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                           </Button>
@@ -177,7 +177,7 @@ export default function newTarget() {
             name="type"
             render={({ field }) => (
               <FormItem className="flex flex-col items-start">
-                <FormLabel className="text-xl font-semibold">Title</FormLabel>
+                <FormLabel className="text-xl font-semibold">Título</FormLabel>
                 <FormControl>
                   <RadioGroup
                     onValueChange={field.onChange}
@@ -188,13 +188,13 @@ export default function newTarget() {
                       <FormControl>
                         <RadioGroupItem value="to do" />
                       </FormControl>
-                      <FormLabel className="font-normal">To do</FormLabel>
+                      <FormLabel className="font-normal">Pendência</FormLabel>
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
                         <RadioGroupItem value="subjects" />
                       </FormControl>
-                      <FormLabel className="font-normal">Subjects</FormLabel>
+                      <FormLabel className="font-normal">Atividades</FormLabel>
                     </FormItem>
                   </RadioGroup>
                 </FormControl>
@@ -210,7 +210,7 @@ export default function newTarget() {
                 return (
                   <FormItem className="flex flex-col items-start transition-all">
                     <FormLabel className="text-xl font-semibold">
-                      Subjects Quantity
+                      Quantidade de atividades
                     </FormLabel>
                     <FormControl>
                       <Input
@@ -227,7 +227,7 @@ export default function newTarget() {
             />
           )}
           <Button disabled={isLoading} type="submit" className="bg-orange-500">
-            {!isLoading ? "Submit" : "Loading..."}
+            {!isLoading ? "Enviar" : "Carregando..."}
             {isLoading ? <Loader2 className="animate-spin ml-3" /> : ""}
           </Button>
         </form>

@@ -11,19 +11,19 @@ const linkList = [
     id: 1,
     path: "/scheduling",
     icon: <Calendar size={20} />,
-    title: "Scheduling",
+    title: "Agendamento",
   },
   {
     id: 2,
     path: "/session",
     icon: <BookOpenText size={20} />,
-    title: "Session",
+    title: "Sessão",
   },
   {
     id: 3,
     path: "/target",
     icon: <Crosshair size={20} />,
-    title: "Target",
+    title: "Objetivos",
   },
 ];
 

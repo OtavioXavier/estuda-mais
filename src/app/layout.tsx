@@ -13,7 +13,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
 	title: "Estuda+",
-	description: "An amazing web app for students",
+	description: "Um lar na web para estudantes",
 	icons: { icon: "./logo.svg" },
 };
 

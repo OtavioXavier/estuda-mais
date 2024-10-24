@@ -66,19 +66,19 @@ export default function Session() {
       <header className="text-start mb-11">
         <h2 className="font-semibold text-lg">
           {!isStart
-            ? "Welcome, let's start a new session?"
-            : "Topics for today:"}
+            ? "Bem vindo, vamos começar uma sessão?"
+            : "Tópicos para hoje:"}
         </h2>
         <p className="text-neutral-500 text-sm md:text-base">
-          First, we need add the matters topics and select the clock type:
+          Primeiro, você precisa adicionar tópicos e selecionar um cronometro:
         </p>
       </header>
       <div>
         {!data ? (
-          <p className="text-base font-normal text-neutral-500">Loading...</p>
+          <p className="text-base font-normal text-neutral-500">Carregando...</p>
         ) : error ? (
           <p className="text-base font-normal text-neutral-500">
-            Failed to load items
+            Falhou ao carregar itens
           </p>
         ) : null}
       </div>
@@ -145,7 +145,7 @@ export default function Session() {
           className="bg-orange-500 mt-11"
           onClick={handleFinish}
         >
-          Finish
+          Terminar
         </Button>
       ) : (
         <Button
@@ -153,7 +153,7 @@ export default function Session() {
           className="bg-orange-500 mt-11"
           onClick={handleStart}
         >
-          Start
+          Começar
         </Button>
       )}
     </section>

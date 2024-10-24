@@ -25,12 +25,12 @@ export default function TargetList() {
   if (error){
     return (
       <p className="text-base font-normal text-neutral-500">
-        Failed to load items
+        Falha ao carregar itens
       </p>
     );}
 
   if (!data)
-    return <p className="text-base font-normal text-neutral-500">Loading...</p>;
+    return <p className="text-base font-normal text-neutral-500">Carregando...</p>;
 
   const targets = data.filter((target) => target.status === true);
 
@@ -56,10 +56,10 @@ export default function TargetList() {
     return (
       <div className="grid gap-10">
         <p className="text-sm font-semibold text-neutral-500">
-          There is not yet targets
+          Ainda não há objetivos.
         </p>
         <Link href={"/target/new"}>
-          <Button className="bg-orange-500">Add Target</Button>
+          <Button className="bg-orange-500">Adicionar Objetivo</Button>
         </Link>
       </div>
     );
@@ -81,7 +81,7 @@ export default function TargetList() {
           <ChevronLeft />
         </Button>
         <span>
-          Page {currentPage} of {totalPages}
+          Página {currentPage} de {totalPages}
         </span>
         <Button
           className="w-18"
@@ -92,7 +92,7 @@ export default function TargetList() {
         </Button>
       </div>
       <Link href={"/target/new"}>
-        <Button className="bg-orange-500">Add Target</Button>
+        <Button className="bg-orange-500">Adicionar Objetivo</Button>
       </Link>
     </main>
   );
